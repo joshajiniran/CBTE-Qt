@@ -1,0 +1,25 @@
+--
+-- File generated with SQLiteStudio v3.1.1 on Tue Jan 23 15:07:53 2018
+--
+-- Text encoding used: UTF-8
+--
+PRAGMA foreign_keys = off;
+BEGIN TRANSACTION;
+
+-- Table: localGovernmentArea
+CREATE TABLE localGovernmentArea (id INTEGER PRIMARY KEY NOT NULL, lgaName VARCHAR (50) NOT NULL, state_id INTEGER (11) REFERENCES states (id) NOT NULL);
+
+-- Table: markets
+CREATE TABLE markets (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, state_id INTEGER REFERENCES states (id) NOT NULL, lg_id INTEGER REFERENCES localGovernmentArea (id) NOT NULL, market_name VARCHAR (50) NOT NULL, latitude DOUBLE NOT NULL UNIQUE, longitude DOUBLE UNIQUE NOT NULL, previous_day DATE NOT NULL, interval INTEGER (8) NOT NULL, next_day DATE);
+
+-- Table: states
+CREATE TABLE states (id INTEGER PRIMARY KEY NOT NULL, state_name VARCHAR (25) UNIQUE NOT NULL, state_capital VARCHAR (25) NOT NULL);
+INSERT INTO states (id, state_name, state_capital) VALUES (1, 'Ekiti', 'Ado-Ekiti');
+INSERT INTO states (id, state_name, state_capital) VALUES (2, 'Oyo', 'Ibadan');
+INSERT INTO states (id, state_name, state_capital) VALUES (3, 'Lagos', 'Ikeja');
+INSERT INTO states (id, state_name, state_capital) VALUES (4, 'Ondo', 'Akure');
+INSERT INTO states (id, state_name, state_capital) VALUES (5, 'Osun', 'Osogbo');
+INSERT INTO states (id, state_name, state_capital) VALUES (6, 'Ogun', 'Abeokuta');
+
+COMMIT TRANSACTION;
+PRAGMA foreign_keys = on;
