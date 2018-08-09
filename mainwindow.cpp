@@ -98,9 +98,9 @@ void MainWindow::on_startBtn_clicked()
     this->setCurrentWidget(ui->examPage);
     ui->candidateNameLbl->setText(QString(lastname.at(0)) + ". " + firstname);
     
-    int hr = 1;
+    int hr = 0;
     int min = 0;
-    int sec = 5;
+    int sec = 15;
     
     time = new QTime(hr, min, sec);
 

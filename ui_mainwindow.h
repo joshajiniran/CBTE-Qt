@@ -93,9 +93,11 @@ public:
     QRadioButton *radioButton_3;
     QRadioButton *radioButton_4;
     QHBoxLayout *horizontalLayout_6;
+    QSpacerItem *horizontalSpacer_18;
     QPushButton *prevBtn;
     QSpacerItem *horizontalSpacer_10;
     QPushButton *nxtBtn;
+    QSpacerItem *horizontalSpacer_19;
     QHBoxLayout *horizontalLayout_8;
     QSpacerItem *horizontalSpacer_12;
     QListWidget *listWidget;
@@ -588,6 +590,10 @@ public:
 
         horizontalLayout_6 = new QHBoxLayout();
         horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
+        horizontalSpacer_18 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_6->addItem(horizontalSpacer_18);
+
         prevBtn = new QPushButton(examPage);
         prevBtn->setObjectName(QStringLiteral("prevBtn"));
         QSizePolicy sizePolicy4(QSizePolicy::Minimum, QSizePolicy::Fixed);
@@ -600,7 +606,7 @@ public:
 
         horizontalLayout_6->addWidget(prevBtn);
 
-        horizontalSpacer_10 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        horizontalSpacer_10 = new QSpacerItem(40, 20, QSizePolicy::Maximum, QSizePolicy::Minimum);
 
         horizontalLayout_6->addItem(horizontalSpacer_10);
 
@@ -612,6 +618,10 @@ public:
         nxtBtn->setFont(font3);
 
         horizontalLayout_6->addWidget(nxtBtn);
+
+        horizontalSpacer_19 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_6->addItem(horizontalSpacer_19);
 
 
         verticalLayout_3->addLayout(horizontalLayout_6);
@@ -689,7 +699,7 @@ public:
 
         horizontalLayout_9 = new QHBoxLayout();
         horizontalLayout_9->setObjectName(QStringLiteral("horizontalLayout_9"));
-        horizontalSpacer_14 = new QSpacerItem(400, 17, QSizePolicy::Maximum, QSizePolicy::Minimum);
+        horizontalSpacer_14 = new QSpacerItem(400, 17, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout_9->addItem(horizontalSpacer_14);
 
@@ -698,7 +708,7 @@ public:
         sizePolicy4.setHeightForWidth(submitBtn->sizePolicy().hasHeightForWidth());
         submitBtn->setSizePolicy(sizePolicy4);
         submitBtn->setMinimumSize(QSize(200, 40));
-        submitBtn->setMaximumSize(QSize(400, 16777215));
+        submitBtn->setMaximumSize(QSize(500, 16777215));
         submitBtn->setFont(font3);
 
         horizontalLayout_9->addWidget(submitBtn);
@@ -741,8 +751,8 @@ public:
         quitBtn->setText(QApplication::translate("MainWindow", "&QUIT", nullptr));
         startBtn->setText(QApplication::translate("MainWindow", "&START", nullptr));
         logo->setText(QString());
-        candidateNameLbl->setText(QApplication::translate("MainWindow", "Candidate Name", nullptr));
-        timeLeftLbl->setText(QApplication::translate("MainWindow", "TIME LEFT: 06:22 ", nullptr));
+        candidateNameLbl->setText(QString());
+        timeLeftLbl->setText(QString());
 
         const bool __sortingEnabled = listWidget_2->isSortingEnabled();
         listWidget_2->setSortingEnabled(false);

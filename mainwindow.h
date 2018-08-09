@@ -42,7 +42,8 @@ private:
     
     QTimer *timer;
     QTime *time;
-
+    
+    QSqlDatabase db;
     
     QuestionManager *adminManager;
 };
