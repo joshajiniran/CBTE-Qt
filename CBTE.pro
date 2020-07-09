@@ -24,14 +24,21 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
+    editablesqlquerymodel.cpp \
     questionmanager.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    registerdialog.cpp \
+    usersqlquerymodel.cpp
 
 HEADERS  += questionmanager.h \
-    mainwindow.h
+    mainwindow.h \
+    editablesqlquerymodel.h \
+    registerdialog.h \
+    usersqlquerymodel.h
 
 FORMS    += mainwindow.ui \
-    questionmanager.ui
+    questionmanager.ui \
+    registerdialog.ui
 
 DISTFILES += \
     logo.jpeg \

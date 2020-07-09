@@ -5,5 +5,9 @@
         <file>success.png</file>
         <file>users.png</file>
         <file>userspix.png</file>
+        <file>fontawesome-webfont.ttf</file>
+        <file>fa-solid-900.ttf</file>
+        <file>user-shield.svg</file>
+        <file>user-secret.svg</file>
     </qresource>
 </RCC>

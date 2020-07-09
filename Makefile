@@ -52,15 +52,19 @@ OBJECTS_DIR   = ./
 
 SOURCES       = main.cpp \
 		questionmanager.cpp \
-		mainwindow.cpp qrc_contents.cpp \
+		mainwindow.cpp \
+		editablesqlquerymodel.cpp qrc_contents.cpp \
 		moc_questionmanager.cpp \
-		moc_mainwindow.cpp
+		moc_mainwindow.cpp \
+		moc_editablesqlquerymodel.cpp
 OBJECTS       = main.o \
 		questionmanager.o \
 		mainwindow.o \
+		editablesqlquerymodel.o \
 		qrc_contents.o \
 		moc_questionmanager.o \
-		moc_mainwindow.o
+		moc_mainwindow.o \
+		moc_editablesqlquerymodel.o
 DIST          = logo.jpeg \
 		exampics \
 		success.png \
@@ -255,9 +259,11 @@ DIST          = logo.jpeg \
 		../../../Qt5.11.1/5.11.1/gcc_64/mkspecs/features/yacc.prf \
 		../../../Qt5.11.1/5.11.1/gcc_64/mkspecs/features/lex.prf \
 		CBTE.pro questionmanager.h \
-		mainwindow.h main.cpp \
+		mainwindow.h \
+		editablesqlquerymodel.h main.cpp \
 		questionmanager.cpp \
-		mainwindow.cpp
+		mainwindow.cpp \
+		editablesqlquerymodel.cpp
 QMAKE_TARGET  = CBTE
 DESTDIR       = 
 TARGET        = CBTE
@@ -676,8 +682,8 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents contents.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../Qt5.11.1/5.11.1/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents questionmanager.h mainwindow.h $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp questionmanager.cpp mainwindow.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents questionmanager.h mainwindow.h editablesqlquerymodel.h $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp questionmanager.cpp mainwindow.cpp editablesqlquerymodel.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents mainwindow.ui questionmanager.ui $(DISTDIR)/
 
 
@@ -710,7 +716,8 @@ qrc_contents.cpp: contents.qrc \
 		logo.jpeg \
 		success.png \
 		exampics \
-		users.png
+		users.png \
+		maths.json
 	/home/projosh/Qt5.11.1/5.11.1/gcc_64/bin/rcc -name contents contents.qrc -o qrc_contents.cpp
 
 compiler_moc_predefs_make_all: moc_predefs.h
@@ -719,9 +726,9 @@ compiler_moc_predefs_clean:
 moc_predefs.h: ../../../Qt5.11.1/5.11.1/gcc_64/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -std=gnu++11 -Wall -W -dM -E -o moc_predefs.h ../../../Qt5.11.1/5.11.1/gcc_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_questionmanager.cpp moc_mainwindow.cpp
+compiler_moc_header_make_all: moc_questionmanager.cpp moc_mainwindow.cpp moc_editablesqlquerymodel.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_questionmanager.cpp moc_mainwindow.cpp
+	-$(DEL_FILE) moc_questionmanager.cpp moc_mainwindow.cpp moc_editablesqlquerymodel.cpp
 moc_questionmanager.cpp: ../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/QMainWindow \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qmainwindow.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -835,6 +842,9 @@ moc_questionmanager.cpp: ../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/QMain
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/qsqltablemodel.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/qsqlquerymodel.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qabstractitemmodel.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/QSqlQueryModel \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/QDataWidgetMapper \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qdatawidgetmapper.h \
 		questionmanager.h \
 		moc_predefs.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/bin/moc
@@ -954,6 +964,9 @@ moc_mainwindow.cpp: questionmanager.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/qsqltablemodel.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/qsqlquerymodel.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qabstractitemmodel.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/QSqlQueryModel \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/QDataWidgetMapper \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qdatawidgetmapper.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/QStackedWidget \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qstackedwidget.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qframe.h \
@@ -961,6 +974,81 @@ moc_mainwindow.cpp: questionmanager.h \
 		moc_predefs.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/bin/moc
 	/home/projosh/Qt5.11.1/5.11.1/gcc_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/home/projosh/Qt5.11.1/5.11.1/gcc_64/mkspecs/linux-g++ -I/home/projosh/QtC++Projects/Tutorials/CBTE -I/home/projosh/Qt5.11.1/5.11.1/gcc_64/include -I/home/projosh/Qt5.11.1/5.11.1/gcc_64/include/QtWidgets -I/home/projosh/Qt5.11.1/5.11.1/gcc_64/include/QtGui -I/home/projosh/Qt5.11.1/5.11.1/gcc_64/include/QtSql -I/home/projosh/Qt5.11.1/5.11.1/gcc_64/include/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include mainwindow.h -o moc_mainwindow.cpp
+
+moc_editablesqlquerymodel.cpp: ../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/QSqlQueryModel \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/qsqlquerymodel.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/qtsqlglobal.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qglobal.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qconfig.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qtcore-config.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qsystemdetection.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qprocessordetection.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qtypeinfo.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qsysinfo.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qlogging.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qflags.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qatomic.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qbasicatomic.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qgenericatomic.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qglobalstatic.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qmutex.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qnumeric.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qversiontagging.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qabstractitemmodel.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qvariant.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qbytearray.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qrefcount.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qnamespace.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qarraydata.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qlist.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qalgorithms.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qiterator.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qhashfunctions.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qstring.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qchar.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qstringliteral.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qstringalgorithms.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qstringview.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qstringbuilder.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qpair.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qbytearraylist.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qstringlist.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qregexp.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qstringmatcher.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qmetatype.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qobjectdefs.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qmap.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qdebug.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qhash.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qtextstream.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qiodevice.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qobject.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qcoreevent.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qscopedpointer.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qobject_impl.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qlocale.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qshareddata.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qvector.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qpoint.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qset.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qcontiguouscache.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qsharedpointer.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/qsqldatabase.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/QTime \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qdatetime.h \
+		editablesqlquerymodel.h \
+		moc_predefs.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/bin/moc
+	/home/projosh/Qt5.11.1/5.11.1/gcc_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/home/projosh/Qt5.11.1/5.11.1/gcc_64/mkspecs/linux-g++ -I/home/projosh/QtC++Projects/Tutorials/CBTE -I/home/projosh/Qt5.11.1/5.11.1/gcc_64/include -I/home/projosh/Qt5.11.1/5.11.1/gcc_64/include/QtWidgets -I/home/projosh/Qt5.11.1/5.11.1/gcc_64/include/QtGui -I/home/projosh/Qt5.11.1/5.11.1/gcc_64/include/QtSql -I/home/projosh/Qt5.11.1/5.11.1/gcc_64/include/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include editablesqlquerymodel.h -o moc_editablesqlquerymodel.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -1102,6 +1190,9 @@ main.o: main.cpp mainwindow.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/qsqltablemodel.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/qsqlquerymodel.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qabstractitemmodel.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/QSqlQueryModel \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/QDataWidgetMapper \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qdatawidgetmapper.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/QStackedWidget \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qstackedwidget.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qframe.h \
@@ -1228,6 +1319,9 @@ questionmanager.o: questionmanager.cpp questionmanager.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/qsqltablemodel.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/qsqlquerymodel.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qabstractitemmodel.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/QSqlQueryModel \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/QDataWidgetMapper \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qdatawidgetmapper.h \
 		ui_questionmanager.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/QVariant \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtGui/QIcon \
@@ -1282,8 +1376,13 @@ questionmanager.o: questionmanager.cpp questionmanager.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtGui/qtextcursor.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtGui/qtextformat.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtGui/qpen.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/QTimeEdit \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qdatetimeedit.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qdatetime.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/QVBoxLayout \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/QWidget \
+		editablesqlquerymodel.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/QTime \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/QtSql \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/QtSqlDepends \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/QtCore \
@@ -1306,7 +1405,6 @@ questionmanager.o: questionmanager.cpp questionmanager.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qcommandlineoption.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qcommandlineparser.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qcryptographichash.h \
-		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qdatetime.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qdeadlinetimer.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qelapsedtimer.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qdir.h \
@@ -1410,7 +1508,11 @@ questionmanager.o: questionmanager.cpp questionmanager.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/qtsqlversion.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/QMessageBox \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qmessagebox.h \
-		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qdialog.h
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qdialog.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/QFileDialog \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qfiledialog.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/QStandardPaths \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/QFile
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o questionmanager.o questionmanager.cpp
 
 mainwindow.o: mainwindow.cpp mainwindow.h \
@@ -1528,6 +1630,9 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/qsqltablemodel.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/qsqlquerymodel.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qabstractitemmodel.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/QSqlQueryModel \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/QDataWidgetMapper \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qdatawidgetmapper.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/QStackedWidget \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qstackedwidget.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qframe.h \
@@ -1715,6 +1820,261 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o mainwindow.cpp
 
+editablesqlquerymodel.o: editablesqlquerymodel.cpp editablesqlquerymodel.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/QSqlQueryModel \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/qsqlquerymodel.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/qtsqlglobal.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qglobal.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qconfig.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qtcore-config.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qsystemdetection.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qprocessordetection.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qtypeinfo.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qsysinfo.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qlogging.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qflags.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qatomic.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qbasicatomic.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qgenericatomic.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qglobalstatic.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qmutex.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qnumeric.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qversiontagging.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qabstractitemmodel.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qvariant.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qbytearray.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qrefcount.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qnamespace.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qarraydata.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qlist.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qalgorithms.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qiterator.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qhashfunctions.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qstring.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qchar.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qstringliteral.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qstringalgorithms.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qstringview.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qstringbuilder.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qpair.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qbytearraylist.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qstringlist.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qregexp.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qstringmatcher.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qmetatype.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qobjectdefs.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qmap.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qdebug.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qhash.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qtextstream.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qiodevice.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qobject.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qcoreevent.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qscopedpointer.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qobject_impl.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qlocale.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qshareddata.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qvector.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qpoint.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qset.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qcontiguouscache.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qsharedpointer.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/qsqldatabase.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/QTime \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qdatetime.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/QtSql \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/QtSqlDepends \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/QtCore \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/QtCoreDepends \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qabstractanimation.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qabstracteventdispatcher.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qeventloop.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qabstractnativeeventfilter.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qabstractproxymodel.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qabstractstate.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qabstracttransition.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qanimationgroup.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qarraydataops.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qarraydatapointer.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qbasictimer.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qbitarray.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qbuffer.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qbytearraymatcher.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qcache.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qcollator.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qcommandlineoption.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qcommandlineparser.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qcoreapplication.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qcryptographichash.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qdatastream.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qdeadlinetimer.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qelapsedtimer.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qdir.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qfileinfo.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qfile.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qfiledevice.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qdiriterator.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qeasingcurve.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qendian.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qeventtransition.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qexception.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qfactoryinterface.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qfileselector.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/QObject \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/QStringList \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qfilesystemwatcher.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qfinalstate.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qfuture.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qfutureinterface.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qrunnable.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qresultstore.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qfuturesynchronizer.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qfuturewatcher.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qhistorystate.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qidentityproxymodel.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qisenum.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qitemselectionmodel.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qjsonarray.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qjsonvalue.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qjsondocument.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qjsonobject.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qlibrary.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qlibraryinfo.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qversionnumber.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qline.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qlinkedlist.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qlockfile.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qloggingcategory.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qmargins.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qmath.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qmessageauthenticationcode.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qmetaobject.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qmimedata.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qmimedatabase.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qmimetype.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qobjectcleanuphandler.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qoperatingsystemversion.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qparallelanimationgroup.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qpauseanimation.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qplugin.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qpointer.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qpluginloader.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qprocess.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qpropertyanimation.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qvariantanimation.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qqueue.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qrandom.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qreadwritelock.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qrect.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qsize.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qregularexpression.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qresource.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qsavefile.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qscopedvaluerollback.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qsemaphore.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qsequentialanimationgroup.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qsettings.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qsharedmemory.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qsignalmapper.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qsignaltransition.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qsocketnotifier.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qsortfilterproxymodel.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qstack.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qstandardpaths.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qstate.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qstatemachine.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qstorageinfo.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qstringlistmodel.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qsystemsemaphore.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qtemporarydir.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qtemporaryfile.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qtextboundaryfinder.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qtextcodec.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qthread.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qthreadpool.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qthreadstorage.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qtimeline.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qtimer.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qtimezone.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qtranslator.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qtypetraits.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qurl.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qurlquery.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/quuid.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qwaitcondition.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qwineventnotifier.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qxmlstream.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtCore/qtcoreversion.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/qsqldriver.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/qsqldriverplugin.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/qsqlerror.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/qsqlfield.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/qsqlindex.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/qsqlrecord.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/qsqlquery.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/qsqlrelationaldelegate.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qitemdelegate.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtGui/qtguiglobal.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtGui/qtgui-config.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qstyleoption.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qwidget.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtGui/qwindowdefs.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtGui/qwindowdefs_win.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtGui/qpaintdevice.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtGui/qpalette.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtGui/qcolor.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtGui/qrgb.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtGui/qrgba64.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtGui/qbrush.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtGui/qmatrix.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtGui/qpolygon.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtGui/qregion.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtGui/qtransform.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtGui/qpainterpath.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtGui/qimage.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtGui/qpixelformat.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtGui/qpixmap.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtGui/qfont.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtGui/qfontmetrics.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtGui/qfontinfo.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qsizepolicy.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtGui/qcursor.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtGui/qkeysequence.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtGui/qevent.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtGui/qvector2d.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtGui/qtouchdevice.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtGui/qvalidator.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtGui/qicon.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qslider.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qabstractslider.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qstyle.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qtabbar.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qtabwidget.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qrubberband.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qframe.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qlistview.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qabstractitemview.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtWidgets/qcombobox.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/qsqlrelationaltablemodel.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/qsqltablemodel.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/qsqlresult.h \
+		../../../Qt5.11.1/5.11.1/gcc_64/include/QtSql/qtsqlversion.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o editablesqlquerymodel.o editablesqlquerymodel.cpp
+
 qrc_contents.o: qrc_contents.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_contents.o qrc_contents.cpp
 
@@ -1723,6 +2083,9 @@ moc_questionmanager.o: moc_questionmanager.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
+
+moc_editablesqlquerymodel.o: moc_editablesqlquerymodel.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_editablesqlquerymodel.o moc_editablesqlquerymodel.cpp
 
 ####### Install
 
